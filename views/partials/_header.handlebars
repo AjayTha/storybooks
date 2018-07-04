@@ -1,0 +1,46 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+<div class="navbar-brand navbar-brand-centered" style="font-size: 30px">StoryBooks</div>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <ul class="nav navbar-nav navbar-left">
+      <li>
+       
+
+      <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        
+        {{#if user }}
+       <a href="#">Dashboard</a>
+  <a href="#">My Stories</a>
+  <a href="#">Logout</a>
+        {{else}}
+        <a href="#"><a href="/auth/google" class="btn btn-danger" style="background-color: red"><i class="fa fa-google-plus" style="font-size:24px"></i> <span style="font-size: 18px;"> Login with Google</span></a>
+        </a>
+        {{/if}}
+      </div>
+    
+      <div id="main">
+        <span style="font-size:30px;cursor:pointer" onclick="openNav()"><i class="fa fa-bars" style="color: grey"></i> </span>
+      </div>
+      </li>
+    </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {{#if user}}
+        <li><a href="/dashboard" style="font-size: 20px"><i class="fa fa-user" aria-hidden="true"></i> Welcome {{user.firstName}}</a></li>
+        <li><a href="/auth/logout" style="font-size: 20px"><i class="fa fa-sign-out"></i> Logout</a></li> 
+        {{else}}
+        <li>
+          <a class="btn red darken-1" href="/auth/google" style="font-size: 20px"><i class="fa fa-google left" ></i> Login With Google</a>
+          
+        </li>
+        {{/if}}
+        <li><a href="/stories" style="font-size: 20px"><i class="fa fa-book"></i> Public Stories</a></li>
+        
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
