@@ -1,19 +1,31 @@
 const express = require('express');
+const path = require('path');
+const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
-const exphbs  = require('express-handlebars');
+var methodOverride = require('method-override')
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+var dateformat = require('helper-dateformat');
 
 // Load User Model
 require('./models/User');
+require('./models/Story');
 
 // Passport Config
 require('./config/passport')(passport);
 
 // Load Routes
-const auth = require('./routes/auth');
 const index = require('./routes/index');
+const auth = require('./routes/auth');
+const stories = require('./routes/stories');
+const {
+  truncate,
+  stripTags,
+  editIcon
+} = require('./helpers/hbs');
+
 // Load Keys
 const keys = require('./config/keys');
 
@@ -25,10 +37,23 @@ mongoose.connect(keys.mongoURI)
   .catch(err => console.log(err));
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+// Handlebars Middleware
 app.engine('handlebars', exphbs({
-	defaultLayout:'main'
+	helpers: {
+    truncate: truncate,
+    stripTags: stripTags,
+    editIcon : editIcon,
+    dateformat : dateformat
+  },
+  	defaultLayout:'main'
 }));
+
 app.set('view engine', 'handlebars');
+
+app.use(methodOverride('_method'));
 
 app.use(cookieParser());
 app.use(session({
@@ -46,11 +71,12 @@ app.use((req, res, next) => {
   res.locals.user = req.user || null;
   next();
 });
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Use Routes
-app.use('/',index);
+app.use('/', index);
 app.use('/auth', auth);
-
+app.use('/stories', stories);
 
 const port = process.env.PORT || 5000;
 

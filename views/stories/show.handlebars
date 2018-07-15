@@ -1,0 +1,62 @@
+
+
+<div class="card text-center mt-3 ">
+  <div class="card-header">
+    <ul class="nav nav-pills card-header-pills">
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Story by : {{story.user.firstName}} {{story.user.lastName}}</a>
+      </li>
+      <li class="nav-item disabled"></li>
+      <li class="nav-item"><a href="/stories/user/{{story.user.id}}" class="btn btn-secondary bg-light text-secondary border-light">More From User</a> </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{story.title}}</h5>
+    <p class="card-text">{{stripTags story.body}}</p>
+    
+  </div>
+</div>
+
+{{#if story.allowComments}}
+
+  <div class="card mt-4">
+    
+  <div class="card-body">
+    <h5 class="card-title">Comments</h5>
+    {{#if user}}
+<form method="post" action="/stories/comment/{{story.id}}">
+  <div class="form-group">
+    <small id="emailHelp" class="form-text text-muted">Add a comment</small>
+            <textarea class="form-control border-bottom" id="exampleInputEmail1" name="comment" rows="3"></textarea>
+
+  </div>
+  <button type="submit" class="btn btn-success">Submit</button>
+
+  {{else}}
+  <p>Please <a href="/auth/google"> log the hell in</a> to comment</p>
+  {{/if}}
+  
+</form>
+
+
+  
+  </div>
+  
+</div>
+
+{{#each story.comments }}
+    <div class="card mt-2">
+  <div class="card-body">
+    <small>{{dateformat story.date "MMMM DD, YYYY"}}</small><br><br>
+    <blockquote class="blockquote mb-0">
+      <p>{{commentBody}}</p>
+      <footer class="blockquote-footer"><i class="fa fa-use"></i> <cite title="Source Title">{{commentUser.firstName}} {{commentUser.lastName}}</cite></footer>
+    </blockquote>
+  </div>
+</div>
+  {{/each}}
+
+{{/if}}
+
+
+

@@ -1,0 +1,20 @@
+<h1 class="m-4">Stories</h1>
+<div class="row">
+  {{#each stories}}
+  <div class="card col-md-4 m-3 shadow" style="width: 18rem;">
+  <div class="card-body" style="position: relative;">
+    <h5 class="card-title text-center">{{title}}</h5>
+    
+     {{#if user}}
+            {{{editIcon user.id ../user.id id}}}
+          {{/if}}
+    
+    <p class="card-text text-body">{{{truncate body 100}}}</p>
+    
+    <a href="/stories/show/{{id}}"><button type="button" class="h-25 btn btn-info" style="position: relative;bottom: 2px">Read More</button></a>   
+  </div>
+</div>
+
+  {{/each}}
+
+</div>
