@@ -37,7 +37,7 @@ router.get('/add', ensureAuthenticated, (req, res) => {
 });
 
 //My Story Form
-router.get('/my', (req, res) =>{
+router.get('/my',ensureAuthenticated, (req, res) =>{
     Story.find({user:req.user.id})
     .populate('user')
     .then(stories => {
